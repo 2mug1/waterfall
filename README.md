@@ -8,7 +8,7 @@ services:
 
   waterfall:
     container_name: waterfall
-    image: ghcr.io/iamtakagi/waterfall
+    image: ghcr.io/takagi-minecraft-lab/waterfall
     volumes:
       - ./waterfall:/app
     tty: true
