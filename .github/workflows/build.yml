@@ -1,4 +1,4 @@
-name: Daily Build and Release
+name: Build and Push Image
 
 on:
   schedule:
@@ -8,6 +8,7 @@ on:
   workflow_dispatch:
 
 env:
+  DOCKER_REGISTRY_NAME: ghcr.io
   DOCKER_IMAGE_NAME: ${{ github.repository }} # {username|org}/waterfall
 
 jobs:
@@ -42,15 +43,15 @@ jobs:
       - name: Login to Registry
         uses: docker/login-action@v1 
         with:
-          registry: ghcr.io
+          registry: ${{ env.DOCKER_REGISTRY_NAME }}
           username: ${{ github.repository_owner }}
-          password: ${{ github.token }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v3
         with:
-          images: ghcr.io/${{ github.repository }}
+          images: ${{ env.DOCKER_REGISTRY_NAME }}/${{ env.DOCKER_IMAGE_NAME }}
 
       - name: Build & Push
         uses: docker/build-push-action@v2
@@ -61,5 +62,5 @@ jobs:
           push: true
           tags: ${{ env.RELEASE_DATE }}
           labels: ${{ env.RELEASE_DATE }}
-          cache-from: ghcr.io/${{ github.repository }}:latest
+          cache-from: ${{ env.DOCKER_REGISTRY_NAME }}/${{ env.DOCKER_IMAGE_NAME }}:latest
           build-args: BUILDKIT_INLINE_CACHE=1
