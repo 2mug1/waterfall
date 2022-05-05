@@ -46,12 +46,6 @@ jobs:
           registry: ${{ env.DOCKER_REGISTRY_NAME }}
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v3
-        with:
-          images: ${{ env.DOCKER_REGISTRY_NAME }}/${{ env.DOCKER_IMAGE_NAME }}
 
       - name: Build & Push
         uses: docker/build-push-action@v2
@@ -60,7 +54,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ env.RELEASE_DATE }}
+          labels: ${{ env.RELEASE_DATE }}
           cache-from: ${{ env.DOCKER_REGISTRY_NAME }}/${{ env.DOCKER_IMAGE_NAME }}:latest
           build-args: BUILDKIT_INLINE_CACHE=1
