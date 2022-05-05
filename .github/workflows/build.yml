@@ -60,7 +60,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ env.RELEASE_DATE }}
-          labels: ${{ env.RELEASE_DATE }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
           cache-from: ${{ env.DOCKER_REGISTRY_NAME }}/${{ env.DOCKER_IMAGE_NAME }}:latest
-          cache-to: type=inline
+          build-args: BUILDKIT_INLINE_CACHE=1
