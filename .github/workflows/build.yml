@@ -64,4 +64,3 @@ jobs:
           labels: ${{ env.RELEASE_DATE }}
           cache-from: ${{ env.DOCKER_REGISTRY_NAME }}/${{ env.DOCKER_IMAGE_NAME }}:latest
           cache-to: type=inline
-          build-args: BUILDKIT_INLINE_CACHE=1
