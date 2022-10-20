@@ -12,7 +12,7 @@ RUN apk add --no-cache wget jq
 ADD ./download-waterfall.sh /build/
 RUN /build/download-waterfall.sh
 
-FROM eclipse-temurin:17.0.2_8-jre-alpine
+FROM eclipse-temurin:18-jre-alpine
 
 # Set timezone to Asia/Tokyo
 RUN apk --update add tzdata && \
